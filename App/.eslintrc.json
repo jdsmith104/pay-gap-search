@@ -3,12 +3,7 @@
     "browser": true,
     "es2021": true
   },
-  "extends": [
-    "airbnb",
-    "airbnb-typescript",
-    "plugin:prettier/recommended",
-    "prettier"
-  ],
+  "extends": ["airbnb", "airbnb-typescript"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -19,5 +14,5 @@
     "project": "./tsconfig.json"
   },
   "plugins": ["react", "@typescript-eslint"],
-  "rules": {}
+  "rules": { "semi": [2, "always"], "object-curly-newline": "off" }
 }
