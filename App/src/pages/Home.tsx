@@ -1,8 +1,8 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import './Home.css';
+import React from "react"
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react"
+import "./Home.css"
 
-const Home: React.FC = () => {
+const Home = function Home() {
   return (
     <IonPage>
       <IonHeader>
@@ -16,10 +16,9 @@ const Home: React.FC = () => {
             <IonTitle size="large">Blank</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer />
       </IonContent>
     </IonPage>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
