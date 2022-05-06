@@ -14,5 +14,9 @@
     "project": "./tsconfig.json"
   },
   "plugins": ["react", "@typescript-eslint"],
-  "rules": { "semi": [2, "always"], "object-curly-newline": "off" }
+  "rules": {
+    "semi": [2, "always"],
+    "object-curly-newline": "off",
+    "max-len": [85]
+  }
 }
