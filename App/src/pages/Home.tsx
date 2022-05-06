@@ -8,13 +8,13 @@ const Home = function Home() {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Blank</IonTitle>
+          <IonTitle>Pay Gap Search</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Blank</IonTitle>
+            <IonTitle size="large">Pay Gap Search</IonTitle>
           </IonToolbar>
         </IonHeader>
         <SuggestedSearchBar />
