@@ -22,3 +22,8 @@
 .container a {
   text-decoration: none;
 }
+
+#text-input {
+  border: blue 5px solid;
+  max-width: 300px;
+}
