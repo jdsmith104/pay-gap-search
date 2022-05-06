@@ -1,6 +1,6 @@
 import { SearchModel } from './SearchModel';
 
-test('renders without crashing', () => {
+test('finds results 1', () => {
   const importedData = {
     data: [
       { name: 'apple', details: {} },
