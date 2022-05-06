@@ -1,6 +1,5 @@
 interface SearchResult {
   name: string;
-
   details: object;
 }
 
@@ -9,7 +8,7 @@ interface ImportedData {
 }
 
 class SearchModel {
-  items: Array<SearchResult> = [
+  searchItems: Array<SearchResult> = [
     { name: 'apple', details: {} },
     { name: 'ape', details: {} },
     { name: 'banana', details: {} },
@@ -18,15 +17,18 @@ class SearchModel {
 
   // Expect { data: Array<SearchResult>}
   constructor(importedData: ImportedData) {
-    this.items = importedData.data;
+    this.searchItems = importedData.data.sort((a, b) =>
+      a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1,
+    );
   }
 
+  // Search for string that begins with substring
   find(substring: string): Array<string> {
     const matches: Array<string> = [];
     let index = 0;
-    while (matches.length < 3 && index < this.items.length) {
-      const item: string = this.items[index].name;
-      if (item.startsWith(substring)) {
+    while (matches.length < 3 && index < this.searchItems.length) {
+      const item: string = this.searchItems[index].name;
+      if (item.toLowerCase().startsWith(substring.toLowerCase())) {
         matches.push(item);
       }
       index += 1;
