@@ -1,22 +1,12 @@
 import './SuggestedSearchBar.css';
 import React, { useState } from 'react';
 import {
-  IonButton,
   IonInput,
   IonItem,
   IonLabel,
   IonList,
   IonListHeader,
 } from '@ionic/react';
-
-class Toggler {
-  #setShow: (show: boolean) => any;
-
-  constructor(show: boolean, callback: (show: boolean) => any) {
-    this.#setShow = callback;
-    this.#setShow(show);
-  }
-}
 
 const SuggestedSearchBar = function SuggestedSearchBar() {
   const [show, setShow] = useState(false);
@@ -34,14 +24,6 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
     }
   }
 
-  function handleHide() {
-    setShow(false);
-  }
-
-  function handleShow() {
-    setShow(true);
-  }
-
   return (
     <div className="container">
       <IonList>
@@ -54,20 +36,6 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
             }}
           />
         </IonListHeader>
-        <IonButton
-          onClick={() => {
-            handleShow();
-          }}
-        >
-          Show
-        </IonButton>
-        <IonButton
-          onClick={() => {
-            handleHide();
-          }}
-        >
-          Hide
-        </IonButton>
         {show && (
           <div>
             <IonItem>
