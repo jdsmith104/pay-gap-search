@@ -17,15 +17,15 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
   const [show, setShow] = useState<boolean>(false);
   const [model, setModel] = useState<SearchModel>(new SearchModel({ data: [] }));
 
-  const [searchResult1, setSerachResult1] = useState<SearchResult>({
+  const [searchResult1, setSearchResult1] = useState<SearchResult>({
     name: '',
     details: [],
   });
-  const [searchResult2, setSerachResult2] = useState<SearchResult>({
+  const [searchResult2, setSearchResult2] = useState<SearchResult>({
     name: '',
     details: [],
   });
-  const [searchResult3, setSerachResult3] = useState<SearchResult>({
+  const [searchResult3, setSearchResult3] = useState<SearchResult>({
     name: '',
     details: [],
   });
@@ -56,19 +56,19 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
     if (model) {
       const ItemsToList: Array<SearchResult> = model.find(InputText);
       if (ItemsToList[0]) {
-        setSerachResult1(ItemsToList[0]);
+        setSearchResult1(ItemsToList[0]);
       } else {
-        setSerachResult1({ name: '', details: [] });
+        setSearchResult1({ name: '', details: [] });
       }
       if (ItemsToList[1]) {
-        setSerachResult2(ItemsToList[1]);
+        setSearchResult2(ItemsToList[1]);
       } else {
-        setSerachResult2({ name: '', details: [] });
+        setSearchResult2({ name: '', details: [] });
       }
       if (ItemsToList[2]) {
-        setSerachResult3(ItemsToList[2]);
+        setSearchResult3(ItemsToList[2]);
       } else {
-        setSerachResult3({ name: '', details: [] });
+        setSearchResult3({ name: '', details: [] });
       }
       if (InputText !== '') {
         if (show === false) {
