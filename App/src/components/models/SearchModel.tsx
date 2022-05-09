@@ -18,18 +18,24 @@ class SearchModel {
   // Expect { data: Array<SearchResult>}
   constructor(importedData: ImportedData) {
     if (importedData.data !== undefined && importedData.data.length > 0) {
-      // eslint-disable-next-line max-len
-      this.searchItems = importedData.data.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1));
+      this.searchItems = importedData.data
+        .sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1));
     }
   }
 
   // Search for string that begins with substring
   find(substring: string): Array<string> {
     const matches: Array<string> = [];
+    const searchString = substring.toLowerCase().replaceAll(' ', '');
     let index = 0;
     while (matches.length < 3 && index < this.searchItems.length) {
       const item: string = this.searchItems[index].name;
-      if (item.toLowerCase().startsWith(substring.toLowerCase())) {
+      // Should remove punctuation as well
+      const processedItemString = item.toLowerCase().replaceAll(' ', '');
+      if (
+        processedItemString
+          .startsWith(searchString)
+      ) {
         matches.push(item);
       }
       index += 1;

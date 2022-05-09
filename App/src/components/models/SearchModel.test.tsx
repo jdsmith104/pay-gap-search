@@ -64,3 +64,20 @@ test('returns empty array when no results found', () => {
   const result = model.find('x');
   expect(result).toHaveLength(0);
 });
+
+test('ignores whitespace in search', () => {
+  const importedData = {
+    data: [
+      { name: 'xenon', details: {} },
+      { name: 'axe', details: {} },
+      { name: 'Ape', details: {} },
+      { name: 'banana', details: {} },
+      { name: 'babble', details: {} },
+      { name: 'aaron', details: {} },
+    ],
+  };
+  const model = new SearchModel(importedData);
+  const result = model.find('x    ');
+  expect(result).toHaveLength(1);
+  expect(result[0]).toBe('xenon');
+});
