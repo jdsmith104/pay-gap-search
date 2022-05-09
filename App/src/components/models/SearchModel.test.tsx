@@ -3,10 +3,10 @@ import { SearchModel } from './SearchModel';
 test('finds results 1', () => {
   const importedData = {
     data: [
-      { name: 'apple', details: {} },
-      { name: 'ape', details: {} },
-      { name: 'banana', details: {} },
-      { name: 'babble', details: {} },
+      { name: 'apple', details: [] },
+      { name: 'ape', details: [] },
+      { name: 'banana', details: [] },
+      { name: 'babble', details: [] },
     ],
   };
   const model = new SearchModel(importedData);
@@ -18,11 +18,11 @@ test('finds results 1', () => {
 test('finds results with different cases', () => {
   const importedData = {
     data: [
-      { name: 'apple', details: {} },
-      { name: 'ape', details: {} },
-      { name: 'Ape', details: {} },
-      { name: 'banana', details: {} },
-      { name: 'babble', details: {} },
+      { name: 'apple', details: [] },
+      { name: 'ape', details: [] },
+      { name: 'Ape', details: [] },
+      { name: 'banana', details: [] },
+      { name: 'babble', details: [] },
     ],
   };
   const model = new SearchModel(importedData);
@@ -34,30 +34,30 @@ test('finds results with different cases', () => {
 test('finds returns first three results in order', () => {
   const importedData = {
     data: [
-      { name: 'apple', details: {} },
-      { name: 'axe', details: {} },
-      { name: 'Ape', details: {} },
-      { name: 'banana', details: {} },
-      { name: 'babble', details: {} },
-      { name: 'aaron', details: {} },
+      { name: 'apple', details: [] },
+      { name: 'axe', details: [] },
+      { name: 'Ape', details: [] },
+      { name: 'banana', details: [] },
+      { name: 'babble', details: [] },
+      { name: 'aaron', details: [] },
     ],
   };
   const model = new SearchModel(importedData);
   const result = model.find('a');
-  expect(result[0]).toBe('aaron');
-  expect(result[1]).toBe('Ape');
-  expect(result[2]).toBe('apple');
+  expect(result[0].name).toBe('aaron');
+  expect(result[1].name).toBe('Ape');
+  expect(result[2].name).toBe('apple');
 });
 
 test('returns empty array when no results found', () => {
   const importedData = {
     data: [
-      { name: 'apple', details: {} },
-      { name: 'axe', details: {} },
-      { name: 'Ape', details: {} },
-      { name: 'banana', details: {} },
-      { name: 'babble', details: {} },
-      { name: 'aaron', details: {} },
+      { name: 'apple', details: [] },
+      { name: 'axe', details: [] },
+      { name: 'Ape', details: [] },
+      { name: 'banana', details: [] },
+      { name: 'babble', details: [] },
+      { name: 'aaron', details: [] },
     ],
   };
   const model = new SearchModel(importedData);
@@ -68,16 +68,16 @@ test('returns empty array when no results found', () => {
 test('ignores whitespace in search', () => {
   const importedData = {
     data: [
-      { name: 'xenon', details: {} },
-      { name: 'axe', details: {} },
-      { name: 'Ape', details: {} },
-      { name: 'banana', details: {} },
-      { name: 'babble', details: {} },
-      { name: 'aaron', details: {} },
+      { name: 'xenon', details: [] },
+      { name: 'axe', details: [] },
+      { name: 'Ape', details: [] },
+      { name: 'banana', details: [] },
+      { name: 'babble', details: [] },
+      { name: 'aaron', details: [] },
     ],
   };
   const model = new SearchModel(importedData);
   const result = model.find('x    ');
   expect(result).toHaveLength(1);
-  expect(result[0]).toBe('xenon');
+  expect(result[0].name).toBe('xenon');
 });

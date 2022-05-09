@@ -1,15 +1,33 @@
 import './SuggestedSearchBar.css';
 import React, { useEffect, useState } from 'react';
-import { IonInput, IonItem, IonLabel, IonList, IonListHeader } from '@ionic/react';
-import { ImportedData, SearchModel } from './models/SearchModel';
+import {
+  IonCard,
+  IonCardContent,
+  IonGrid,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonRow,
+} from '@ionic/react';
+import { ImportedData, SearchModel, SearchResult } from './models/SearchModel';
 
 const SuggestedSearchBar = function SuggestedSearchBar() {
-  const [show, setShow] = useState(false);
-  const [model, setModel] = useState(new SearchModel({ data: [] }));
+  const [show, setShow] = useState<boolean>(false);
+  const [model, setModel] = useState<SearchModel>(new SearchModel({ data: [] }));
 
-  const [searchResult1, setSerachResult1] = useState('');
-  const [searchResult2, setSerachResult2] = useState('');
-  const [searchResult3, setSerachResult3] = useState('');
+  const [searchResult1, setSerachResult1] = useState<SearchResult>({
+    name: '',
+    details: [],
+  });
+  const [searchResult2, setSerachResult2] = useState<SearchResult>({
+    name: '',
+    details: [],
+  });
+  const [searchResult3, setSerachResult3] = useState<SearchResult>({
+    name: '',
+    details: [],
+  });
+  const [cardText, setCardText] = useState<string>('Please select an organisation');
 
   useEffect(() => {
     fetch(
@@ -34,10 +52,22 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
     const InputText: string = event.detail.value;
 
     if (model) {
-      const ItemsToList: Array<string> = model.find(InputText);
-      setSerachResult1(ItemsToList[0]);
-      setSerachResult2(ItemsToList[1]);
-      setSerachResult3(ItemsToList[2]);
+      const ItemsToList: Array<SearchResult> = model.find(InputText);
+      if (ItemsToList[0]) {
+        setSerachResult1(ItemsToList[0]);
+      } else {
+        setSerachResult1({ name: '', details: [] });
+      }
+      if (ItemsToList[1]) {
+        setSerachResult2(ItemsToList[1]);
+      } else {
+        setSerachResult2({ name: '', details: [] });
+      }
+      if (ItemsToList[2]) {
+        setSerachResult3(ItemsToList[2]);
+      } else {
+        setSerachResult3({ name: '', details: [] });
+      }
       if (InputText !== '') {
         if (show === false) {
           setShow(true);
@@ -48,10 +78,22 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
     }
   }
 
+  function showDetail(data: SearchResult) {
+    if (data.details.length >= 2) {
+      const newCardText = `${data.name}\
+      has ${data.details[0]}\
+       employees and on average women earn\
+        ${data.details[1]}% less per hour than men`;
+      setCardText(newCardText);
+    } else {
+      setCardText('Please select an organisation');
+    }
+  }
+
   return (
     <div className="container">
-      <IonList>
-        <IonListHeader lines="inset">
+      <IonGrid>
+        <IonRow class="ion-justify-content-center">
           <IonInput
             id="text-input"
             inputMode="search"
@@ -59,21 +101,47 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
               getDropdownItems(e);
             }}
           />
-        </IonListHeader>
+        </IonRow>
         {show && (
           <div>
-            <IonItem>
-              <IonLabel>{searchResult1}</IonLabel>
-            </IonItem>
-            <IonItem>
-              <IonLabel>{searchResult2}</IonLabel>
-            </IonItem>
-            <IonItem>
-              <IonLabel>{searchResult3}</IonLabel>
-            </IonItem>
+            <IonRow
+              class="ion-justify-content-center"
+              onClick={() => {
+                showDetail(searchResult1);
+              }}
+            >
+              <IonItem>
+                <IonLabel>{searchResult1.name}</IonLabel>
+              </IonItem>
+            </IonRow>
+            <IonRow
+              class="ion-justify-content-center"
+              onClick={() => {
+                showDetail(searchResult2);
+              }}
+            >
+              <IonItem>
+                <IonLabel>{searchResult2.name}</IonLabel>
+              </IonItem>
+            </IonRow>
+            <IonRow
+              class="ion-justify-content-center"
+              onClick={() => {
+                showDetail(searchResult3);
+              }}
+            >
+              <IonItem>
+                <IonLabel>{searchResult3.name}</IonLabel>
+              </IonItem>
+            </IonRow>
           </div>
         )}
-      </IonList>
+        <IonRow class="ion-justify-content-center">
+          <IonCard>
+            <IonCardContent>{cardText}</IonCardContent>
+          </IonCard>
+        </IonRow>
+      </IonGrid>
     </div>
   );
 };
