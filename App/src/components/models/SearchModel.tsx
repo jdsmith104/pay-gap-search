@@ -17,9 +17,10 @@ class SearchModel {
 
   // Expect { data: Array<SearchResult>}
   constructor(importedData: ImportedData) {
-    this.searchItems = importedData.data.sort((a, b) =>
-      a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1,
-    );
+    if (importedData.data !== undefined && importedData.data.length > 0) {
+      // eslint-disable-next-line max-len
+      this.searchItems = importedData.data.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1));
+    }
   }
 
   // Search for string that begins with substring

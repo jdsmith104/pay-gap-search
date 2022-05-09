@@ -17,6 +17,6 @@
   "rules": {
     "semi": [2, "always"],
     "object-curly-newline": "off",
-    "max-len": [85]
+    "max-len": [2, 85]
   }
 }
