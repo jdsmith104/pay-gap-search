@@ -7,6 +7,10 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
   const [show, setShow] = useState(false);
   const [model, setModel] = useState(new SearchModel({ data: [] }));
 
+  const [searchResult1, setSerachResult1] = useState('');
+  const [searchResult2, setSerachResult2] = useState('');
+  const [searchResult3, setSerachResult3] = useState('');
+
   useEffect(() => {
     fetch(
       'data/json_data.json',
@@ -30,9 +34,10 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
     const InputText: string = event.detail.value;
 
     if (model) {
-      const ItemsToList = model.find(InputText);
-
-      console.log(ItemsToList[0]);
+      const ItemsToList: Array<string> = model.find(InputText);
+      setSerachResult1(ItemsToList[0]);
+      setSerachResult2(ItemsToList[1]);
+      setSerachResult3(ItemsToList[2]);
       if (InputText !== '') {
         if (show === false) {
           setShow(true);
@@ -58,16 +63,13 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
         {show && (
           <div>
             <IonItem>
-              <IonLabel>Input</IonLabel>
+              <IonLabel>{searchResult1}</IonLabel>
             </IonItem>
             <IonItem>
-              <IonLabel>Toggle</IonLabel>
+              <IonLabel>{searchResult2}</IonLabel>
             </IonItem>
             <IonItem>
-              <IonLabel>Radio</IonLabel>
-            </IonItem>
-            <IonItem>
-              <IonLabel>Checkbox</IonLabel>
+              <IonLabel>{searchResult3}</IonLabel>
             </IonItem>
           </div>
         )}
