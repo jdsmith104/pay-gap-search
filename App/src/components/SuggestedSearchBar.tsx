@@ -11,6 +11,8 @@ import {
 } from '@ionic/react';
 import { ImportedData, SearchModel, SearchResult } from './models/SearchModel';
 
+const CardText: string = 'No company selected';
+
 const SuggestedSearchBar = function SuggestedSearchBar() {
   const [show, setShow] = useState<boolean>(false);
   const [model, setModel] = useState<SearchModel>(new SearchModel({ data: [] }));
@@ -27,7 +29,7 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
     name: '',
     details: [],
   });
-  const [cardText, setCardText] = useState<string>('Please select an organisation');
+  const [cardText, setCardText] = useState<string>(CardText);
 
   useEffect(() => {
     fetch(
@@ -86,7 +88,7 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
         ${data.details[1]}% less per hour than men`;
       setCardText(newCardText);
     } else {
-      setCardText('Please select an organisation');
+      setCardText(CardText);
     }
   }
 
@@ -100,6 +102,8 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
             onIonChange={(e) => {
               getDropdownItems(e);
             }}
+            autofocus
+            placeholder="Type a company name here"
           />
         </IonRow>
         {show && (
