@@ -18,8 +18,9 @@ class SearchModel {
   // Expect { data: Array<SearchResult>}
   constructor(importedData: ImportedData) {
     if (importedData.data !== undefined && importedData.data.length > 0) {
-      this.searchItems = importedData.data
-        .sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1));
+      this.searchItems = importedData.data.sort((a, b) =>
+        a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1,
+      );
     }
   }
 
@@ -32,10 +33,7 @@ class SearchModel {
       const item: string = this.searchItems[index].name;
       // Should remove punctuation as well
       const processedItemString = item.toLowerCase().replaceAll(' ', '');
-      if (
-        processedItemString
-          .startsWith(searchString)
-      ) {
+      if (processedItemString.startsWith(searchString)) {
         matches.push(this.searchItems[index]);
       }
       index += 1;

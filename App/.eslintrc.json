@@ -17,6 +17,17 @@
   "rules": {
     "semi": [2, "always"],
     "object-curly-newline": "off",
-    "max-len": [2, 85]
+    "max-len": [2, 150],
+    "implicit-arrow-linebreak": ["off", "error", "below"],
+    "function-paren-newline": "off",
+    "no-confusing-arrow": [
+      "off",
+      {
+        "allowParens": true,
+        "onlyOneSimpleParam": true
+      }
+    ],
+    "operator-linebreak": ["warn"],
+    "react/jsx-one-expression-per-line": "off"
   }
 }

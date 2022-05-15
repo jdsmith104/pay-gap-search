@@ -107,45 +107,42 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
           />
         </IonRow>
         <div>
-          {searchResult1.name !== ''
-            && (
-              <IonRow
-                class="ion-justify-content-center"
-                onClick={() => {
-                  showDetail(searchResult1);
-                }}
-              >
-                <IonItem>
-                  <IonLabel>{searchResult1.name}</IonLabel>
-                </IonItem>
-              </IonRow>
-            )}
-          {searchResult2.name !== ''
-            && (
-              <IonRow
-                class="ion-justify-content-center"
-                onClick={() => {
-                  showDetail(searchResult2);
-                }}
-              >
-                <IonItem>
-                  <IonLabel>{searchResult2.name}</IonLabel>
-                </IonItem>
-              </IonRow>
-            )}
-          {searchResult3.name !== ''
-            && (
-              <IonRow
-                class="ion-justify-content-center"
-                onClick={() => {
-                  showDetail(searchResult3);
-                }}
-              >
-                <IonItem>
-                  <IonLabel>{searchResult3.name}</IonLabel>
-                </IonItem>
-              </IonRow>
-            )}
+          {searchResult1.name !== '' && (
+            <IonRow
+              class="ion-justify-content-center"
+              onClick={() => {
+                showDetail(searchResult1);
+              }}
+            >
+              <IonItem>
+                <IonLabel>{searchResult1.name}</IonLabel>
+              </IonItem>
+            </IonRow>
+          )}
+          {searchResult2.name !== '' && (
+            <IonRow
+              class="ion-justify-content-center"
+              onClick={() => {
+                showDetail(searchResult2);
+              }}
+            >
+              <IonItem>
+                <IonLabel>{searchResult2.name}</IonLabel>
+              </IonItem>
+            </IonRow>
+          )}
+          {searchResult3.name !== '' && (
+            <IonRow
+              class="ion-justify-content-center"
+              onClick={() => {
+                showDetail(searchResult3);
+              }}
+            >
+              <IonItem>
+                <IonLabel>{searchResult3.name}</IonLabel>
+              </IonItem>
+            </IonRow>
+          )}
         </div>
         <IonRow class="ion-justify-content-center">
           <IonCard>

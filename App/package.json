@@ -21,11 +21,12 @@
     "@types/react-router-dom": "^5.1.7",
     "firebase": "^9.8.0",
     "firebase-admin": "^10.2.0",
-    "ionicons": "^5.4.0",
+    "formidable": "^2.0.1",
+    "ionicons": "^6.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "5.3.1",
     "react-scripts": "5.0.1",
     "typescript": "^4.1.3",
     "web-vitals": "^0.2.4",
@@ -45,7 +46,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
+    "tidy": "yarn prettier --write .",
     "test-models": "react-scripts test ./src/components",
     "eject": "react-scripts eject"
   },

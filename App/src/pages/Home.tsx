@@ -13,7 +13,8 @@ import {
 import './Home.css';
 import SuggestedSearchBar from '../components/SuggestedSearchBar';
 // eslint-disable-next-line max-len
-const PageText: string = 'Welcome to this application. Start typing in the text box below to and click the result to view their pay gap.';
+const PageText: string =
+  'Welcome to this application. Start typing in the text box below to and click the result to view their pay gap.';
 
 const Home = function Home() {
   return (
@@ -46,13 +47,11 @@ const Home = function Home() {
         <IonToolbar>
           <IonText>
             <p>
-              Source:
-              {' '}
+              Source:{' '}
               <a href="https://gender-pay-gap.service.gov.uk/viewing/download">
                 www.gender-pay-gap.service.gov.uk
               </a>
             </p>
-
           </IonText>
         </IonToolbar>
       </IonFooter>
