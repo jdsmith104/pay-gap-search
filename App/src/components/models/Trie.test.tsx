@@ -34,6 +34,24 @@ test('test case 3', () => {
   expect(response).toBe(false);
 });
 
+test('test case 3', () => {
+  const defaultValue: string = '';
+
+  const head = new TrieNode({ val: defaultValue });
+  const opts = { name: 'test' };
+  let response: boolean = head.addQuery('hello', opts);
+  expect(response).toBe(true);
+
+  response = head.addQuery('help', opts);
+  expect(response).toBe(true);
+
+  response = head.addQuery('help me', opts);
+  expect(response).toBe(true);
+
+  const searchResponse = head.searchQuery('help');
+  console.log(searchResponse);
+});
+
 test('test toIndex', () => {
   const letters = ['A', 'a', 'b', ','];
   const expectedIndex = [true, true, true, false];

@@ -8,6 +8,10 @@ interface IResponse {
   success: boolean;
   val: any;
 }
+interface ISearchResponse {
+  found: boolean;
+  opts: any;
+}
 
 function toIndex(letter: string): IResponse {
   assert(letter.length === 1);
@@ -75,7 +79,21 @@ class TrieNode {
     return true;
   }
 
-  search(query: string): TrieNode | undefined {
+  searchQuery(query: string): Array<any> {
+    const parsedQuery = query.toLowerCase().replaceAll(' ', '');
+    const response = this.search(parsedQuery);
+    if (response) {
+      // Success found a node
+      const searchResults = Array<any>(0);
+      if (response?.options) {
+        searchResults.push(response.options);
+      }
+      return searchResults;
+    }
+    return [];
+  }
+
+  private search(query: string): TrieNode | undefined {
     if (query.length > 0) {
       const letter = query[0];
       const response = toIndex(letter);
