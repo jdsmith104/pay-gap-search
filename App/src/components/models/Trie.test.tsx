@@ -1,14 +1,6 @@
-import { toIndex, TrieNode } from './Trie';
+import { depthFirstSearch, toIndex, TrieNode } from './Trie';
 
-test('test case 1', () => {
-  const defaultValue: string = '';
-
-  const trieNode = new TrieNode({ val: defaultValue });
-
-  expect(trieNode.getValue()).toBe(defaultValue);
-});
-
-test('test case 2', () => {
+test('test constructor', () => {
   const defaultValue: string = '';
 
   const head = new TrieNode({ val: defaultValue });
@@ -16,7 +8,7 @@ test('test case 2', () => {
   expect(head.getValue()).toBe(defaultValue);
 });
 
-test('test case 3', () => {
+test('test add query', () => {
   const defaultValue: string = '';
 
   const head = new TrieNode({ val: defaultValue });
@@ -34,7 +26,7 @@ test('test case 3', () => {
   expect(response).toBe(false);
 });
 
-test('test case 3', () => {
+test('test search', () => {
   const defaultValue: string = '';
 
   const head = new TrieNode({ val: defaultValue });
@@ -42,14 +34,41 @@ test('test case 3', () => {
   let response: boolean = head.addQuery('hello', opts);
   expect(response).toBe(true);
 
-  response = head.addQuery('help', opts);
+  response = head.addQuery('abcd', opts);
   expect(response).toBe(true);
 
-  response = head.addQuery('help me', opts);
+  response = head.addQuery('abc', opts);
   expect(response).toBe(true);
 
-  const searchResponse = head.searchQuery('help');
-  console.log(searchResponse);
+  response = head.addQuery('abcde', opts);
+  expect(response).toBe(true);
+
+  const searchResponse = head.searchQuery('abc');
+  expect(searchResponse).toHaveLength(3);
+  expect(searchResponse[0]).toBe(opts);
+  expect(searchResponse[1]).toBe(opts);
+  expect(searchResponse[2]).toBe(opts);
+});
+
+test('test depth first search', () => {
+  const defaultValue: string = '';
+
+  const head = new TrieNode({ val: defaultValue });
+  const opts = { name: 'test' };
+  let response: boolean = head.addQuery('hello', opts);
+  expect(response).toBe(true);
+
+  response = head.addQuery('abcd', opts);
+  expect(response).toBe(true);
+
+  response = head.addQuery('abc', opts);
+  expect(response).toBe(true);
+
+  response = head.addQuery('abcde', opts);
+  expect(response).toBe(true);
+
+  const searchResponse: TrieNode[] = depthFirstSearch(head, 3);
+  expect(searchResponse).toHaveLength(3);
 });
 
 test('test toIndex', () => {
