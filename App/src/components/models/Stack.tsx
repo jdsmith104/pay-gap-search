@@ -41,6 +41,10 @@ class Stack {
   size(): number {
     return this.count;
   }
+
+  empty(): boolean {
+    return this.count === 0;
+  }
 }
 
 export default Stack;
