@@ -11,34 +11,15 @@ import {
 } from '@ionic/react';
 import SearchModel from './models/SearchModel';
 import { ImportedData, SearchItem } from './models/SearchModelTypes';
+import { emptySearchResult } from './models/Trie';
 
 const SuggestedSearchBar = function SuggestedSearchBar() {
   const CardText: string = 'No company selected';
-  let show: boolean = false;
-  function setShow(newShow: boolean) {
-    show = newShow;
-  }
 
   // Todo: This doesn't need to be state
   const [model, setModel] = useState<SearchModel>(new SearchModel({ data: [] }));
 
-  const emptySearchResults: Array<SearchItem> = [
-    {
-      name: '',
-      details: [],
-    },
-    {
-      name: '',
-      details: [],
-    },
-    {
-      name: '',
-      details: [],
-    },
-  ];
-
-  // Todo: This doesn't need to be state
-  const [searchResults, setSearchResults] = useState<Array<SearchItem>>(emptySearchResults);
+  const [searchResults, setSearchResults] = useState<Array<SearchItem>>([emptySearchResult, emptySearchResult, emptySearchResult]);
 
   // Todo: This doesn't need to be state
   const [cardText, setCardText] = useState<string>(CardText);
@@ -64,22 +45,11 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
 
     if (model) {
       const ItemsToList: Array<SearchItem> = model.find(InputText);
-      if (ItemsToList.length > 0) {
-        setSearchResults(ItemsToList);
-      } else {
-        setSearchResults(emptySearchResults);
-      }
-      if (InputText !== '') {
-        if (show === false) {
-          setShow(true);
-        }
-      } else if (show === true) {
-        setShow(false);
-      }
+      setSearchResults(ItemsToList);
     }
   }
 
-  function showDetail(data: SearchItem) {
+  function updateCardText(data: SearchItem) {
     if (data.details.length >= 2) {
       const newCardText = `${data.name}\
       has ${data.details[0]}\
@@ -90,6 +60,22 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
       setCardText(CardText);
     }
   }
+
+  const searchResultComponents: Array<any> = [];
+  searchResults.forEach((searchResult) => {
+    searchResultComponents.push(searchResult.name !== '' && (
+      <IonRow
+        class="ion-justify-content-center"
+        onClick={() => {
+          updateCardText(searchResult);
+        }}
+      >
+        <IonItem>
+          <IonLabel>{searchResult.name}</IonLabel>
+        </IonItem>
+      </IonRow>
+    ));
+  });
 
   return (
     <div className="container">
@@ -106,42 +92,9 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
           />
         </IonRow>
         <div>
-          {searchResults[0].name !== '' && (
-            <IonRow
-              class="ion-justify-content-center"
-              onClick={() => {
-                showDetail(searchResults[0]);
-              }}
-            >
-              <IonItem>
-                <IonLabel>{searchResults[0].name}</IonLabel>
-              </IonItem>
-            </IonRow>
-          )}
-          {searchResults[1].name !== '' && (
-            <IonRow
-              class="ion-justify-content-center"
-              onClick={() => {
-                showDetail(searchResults[1]);
-              }}
-            >
-              <IonItem>
-                <IonLabel>{searchResults[1].name}</IonLabel>
-              </IonItem>
-            </IonRow>
-          )}
-          {searchResults[2].name !== '' && (
-            <IonRow
-              class="ion-justify-content-center"
-              onClick={() => {
-                showDetail(searchResults[2]);
-              }}
-            >
-              <IonItem>
-                <IonLabel>{searchResults[2].name}</IonLabel>
-              </IonItem>
-            </IonRow>
-          )}
+          {
+            searchResultComponents
+          }
         </div>
         <IonRow class="ion-justify-content-center">
           <IonCard>
