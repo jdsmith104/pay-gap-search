@@ -1,24 +1,16 @@
 import { sha1 } from 'object-hash';
 import Stack from './Stack';
-import { SearchItem } from './SearchModelTypes';
-
-export interface ITrieParameters {
-  val: string;
-}
-
-interface IResponse {
-  success: boolean;
-  val: any;
-}
+import { SearchItem, IResponse, ITrieParameters } from './SearchModelTypes';
 
 const emptySearchResult: SearchItem = {
   name: '',
   details: [],
 };
 
-function toIndex(letter: string): IResponse {
+// Get the index of a supported character
+function charToIndex(char: string): IResponse {
   const response: IResponse = { success: false, val: 0 };
-  const index = letter.toLowerCase().charCodeAt(0) - 97;
+  const index = char.toLowerCase().charCodeAt(0) - 97;
   response.val = index;
   if (index < 0 || index >= 26) {
     response.success = false;
@@ -28,24 +20,26 @@ function toIndex(letter: string): IResponse {
   return response;
 }
 
+// Do a depth first search from head and return an array containing upto targetResultsCount
 function depthFirstSearch(
   head: TrieNode,
-  targetResultsCount: number,
+  numItemsToFind: number,
 ): Array<SearchItem> {
   // Add node to stack to show unvisited
+  // 100 chosen as a reasonable minimum stack size
   const stack = new Stack(100);
-  const visitedNodes: string[] = [];
-  const results: Array<SearchItem> = [];
+  const hashedVisitedNodes: string[] = [];
+  const itemsFound: Array<SearchItem> = [];
   // Add head stack
   stack.push(head);
-  while (!stack.empty() && results.length < targetResultsCount) {
+  while (!stack.empty() && itemsFound.length < numItemsToFind) {
     const node: TrieNode = stack.pop();
     if (node.options) {
-      results.push(node.options);
+      itemsFound.push(node.options);
     }
     const hash: string = sha1(node);
-    if (!(hash in visitedNodes)) {
-      visitedNodes.push(hash);
+    if (!(hash in hashedVisitedNodes)) {
+      hashedVisitedNodes.push(hash);
       for (let index = 25; index >= 0; index -= 1) {
         const child = node.children[index];
         if (child) {
@@ -54,7 +48,7 @@ function depthFirstSearch(
       }
     }
   }
-  return results;
+  return itemsFound;
 }
 
 class TrieNode {
@@ -96,7 +90,7 @@ class TrieNode {
   private add(query: string, options: any): undefined | boolean {
     if (query.length > 0) {
       const letter = query[0];
-      const response = toIndex(letter);
+      const response = charToIndex(letter);
       // If letter has been converted to valid index
       if (response.success === true) {
         const index = response.val;
@@ -182,7 +176,7 @@ class TrieNode {
   private getSubNode(query: string): TrieNode | undefined {
     if (query.length > 0) {
       const letter = query[0];
-      const response = toIndex(letter);
+      const response = charToIndex(letter);
       // If letter has been converted to valid index
       if (response.success === true) {
         const index = response.val;
@@ -198,4 +192,4 @@ class TrieNode {
   }
 }
 
-export { TrieNode, toIndex, depthFirstSearch };
+export { TrieNode, charToIndex as toIndex, depthFirstSearch };

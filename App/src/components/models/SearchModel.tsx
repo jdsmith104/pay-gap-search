@@ -6,14 +6,11 @@ export default class SearchModel {
 
   private trie: TrieNode;
 
-  // Expect { data: Array<SearchResult>}
   constructor(importedData: ImportedData) {
-    this.trie = new TrieNode({ val: 'a' });
-    if (importedData.data !== undefined && importedData.data.length > 0) {
-      for (let i = 0; i < importedData.data.length; i += 1) {
-        const item: SearchItem = importedData.data[i];
-        this.trie.addItem(item.name, item);
-      }
+    this.trie = new TrieNode({ val: '' });
+    for (let i = 0; i < importedData.data.length; i += 1) {
+      const datum: SearchItem = importedData.data[i];
+      this.trie.addItem(datum.name, datum);
     }
   }
 

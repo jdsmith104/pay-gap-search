@@ -98,6 +98,8 @@ test('test expect cached results to be found faster', () => {
     let endTime = performance.now();
     const firstSearchTime = endTime - startTime;
 
+    results = searchModel.find('a');
+
     expect(results).toBeDefined();
     // Repeat query. Measure the time taken to find a query
     startTime = performance.now();
