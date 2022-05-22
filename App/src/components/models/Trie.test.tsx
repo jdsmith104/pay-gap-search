@@ -100,3 +100,79 @@ test('does not allow duplicates', () => {
   const searchResponse = head.searchItem('a');
   expect(searchResponse).toHaveLength(2);
 });
+
+test('previous search results are cached', () => {
+  const defaultValue: string = '';
+
+  const head = new TrieNode({ val: defaultValue });
+  const data = [
+    { name: 'apple', details: [] },
+    { name: 'ape', details: [] },
+    { name: 'Apel', details: [] },
+    { name: 'Apae', details: [] },
+    { name: 'Abaie', details: [] },
+    { name: 'bone', details: [] },
+  ];
+
+  for (let index = 0; index < data.length; index += 1) {
+    const element = data[index];
+    head.addItem(element.name, element);
+  }
+
+  // Measure the time taken to find a query
+  let startTime = performance.now();
+  const firstSearchResponse = head.searchItem('a');
+  let endTime = performance.now();
+  const firstSearchTime = endTime - startTime;
+
+  startTime = performance.now();
+  const secondSearchResponse = head.searchItem('a');
+  endTime = performance.now();
+  const secondSearchTime = endTime - startTime;
+  if (firstSearchResponse && secondSearchResponse) {
+    expect(firstSearchResponse).toMatchObject(secondSearchResponse);
+  } else {
+    fail('Expected search results to be returned');
+  }
+  expect(secondSearchTime).toBeLessThan(firstSearchTime);
+});
+
+test('Building a search query', () => {
+  const defaultValue: string = '';
+
+  const head = new TrieNode({ val: defaultValue });
+  const data = [
+    { name: 'apple', details: [] },
+    { name: 'ape', details: [] },
+    { name: 'Apel', details: [] },
+    { name: 'Apae', details: [] },
+    { name: 'able', details: [] },
+  ];
+
+  for (let index = 0; index < data.length; index += 1) {
+    const element = data[index];
+    head.addItem(element.name, element);
+  }
+
+  // Measure the time taken to find a query
+  let searchResponse = head.searchItem('a');
+  if (searchResponse) {
+    expect(searchResponse).toHaveLength(3);
+  } else {
+    fail('Expected search results to be returned');
+  }
+
+  searchResponse = head.searchItem('ap');
+  if (searchResponse) {
+    expect(searchResponse).toHaveLength(3);
+  } else {
+    fail('Expected search results to be returned');
+  }
+
+  searchResponse = head.searchItem('ape');
+  if (searchResponse) {
+    expect(searchResponse).toHaveLength(2);
+  } else {
+    fail('Expected search results to be returned');
+  }
+});

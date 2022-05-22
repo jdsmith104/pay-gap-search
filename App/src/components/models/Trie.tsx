@@ -60,12 +60,18 @@ class TrieNode {
 
   private static searchQueryMaxResults: number = 3;
 
+  private minSearchLength: number = 1;
+
+  private cachedSearchResults: Map<string, [Array<object>, TrieNode]>;
+
   constructor(parameters: ITrieParameters) {
     this.val = parameters.val;
 
     this.children = new Array<TrieNode | undefined>(26);
 
     this.options = undefined;
+
+    this.cachedSearchResults = new Map();
   }
 
   getValue(): string {
@@ -108,21 +114,63 @@ class TrieNode {
 
   searchItem(query: string): Array<object> | undefined {
     const parsedQuery = query.toLowerCase().replaceAll(' ', '');
-    // head or undefined
-    const head = this.search(parsedQuery);
-    if (head) {
-      // Success found a node
-      const searchResults: Array<object> = depthFirstSearch(
-        head,
-        TrieNode.searchQueryMaxResults,
-      );
-
-      return searchResults;
+    let result: Array<object> | undefined;
+    if (!this.isValidSearchTerm(query)) {
+      result = undefined;
+    } else if (this.cachedSearchResults.has(parsedQuery)) {
+      const queryTuple = this.cachedSearchResults.get(parsedQuery);
+      if (queryTuple) {
+        [result] = queryTuple;
+      }
+    } else {
+      // head or undefined
+      const [cachedHead, subQuery] = this.isHeadCached(parsedQuery);
+      const head: TrieNode | undefined = cachedHead.getSubNode(subQuery);
+      if (head) {
+        // Success found a node
+        const searchResults: Array<object> = depthFirstSearch(
+          head,
+          TrieNode.searchQueryMaxResults,
+        );
+        this.cachedSearchResults.set(parsedQuery, [searchResults, head]);
+        result = searchResults;
+      }
     }
-    return undefined;
+
+    return result;
   }
 
-  private search(query: string): TrieNode | undefined {
+  private isHeadCached(query: string): [TrieNode, string] {
+    let returnHead: TrieNode = this;
+    let remainingQuery: string = query;
+    if (query.length > 1) {
+      for (let i = 1; i < query.length; i += 1) {
+        // Look for cached substring
+        const reducedString: string = query.substring(0, query.length - i);
+        if (this.cachedSearchResults.has(reducedString)) {
+          const cachedResultGet: any = this.cachedSearchResults.get(reducedString);
+          if (cachedResultGet) {
+            const cachedResult: [Array<object>, TrieNode] = cachedResultGet;
+            const remainingQueryStartIndex: number = query.length - i;
+            remainingQuery = query.substring(remainingQueryStartIndex, query.length);
+            [, returnHead] = cachedResult;
+            break;
+          }
+        }
+      }
+    }
+    return [returnHead, remainingQuery];
+  }
+
+  private isValidSearchTerm(query: string): boolean {
+    let isValid = true;
+    if (query.length < this.minSearchLength) {
+      isValid = false;
+    }
+    return isValid;
+  }
+
+  private getSubNode(query: string): TrieNode | undefined {
     if (query.length > 0) {
       const letter = query[0];
       const response = toIndex(letter);
@@ -130,7 +178,7 @@ class TrieNode {
       if (response.success === true) {
         const index = response.val;
         if (this.children[index] !== undefined) {
-          return this.children[index]?.search(query.substring(1, query.length));
+          return this.children[index]?.getSubNode(query.substring(1, query.length));
         }
         return undefined;
       }
