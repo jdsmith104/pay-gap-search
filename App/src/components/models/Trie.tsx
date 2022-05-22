@@ -1,4 +1,3 @@
-import { assert } from 'console';
 import { sha1 } from 'object-hash';
 import Stack from './Stack';
 
@@ -10,13 +9,8 @@ interface IResponse {
   success: boolean;
   val: any;
 }
-interface ISearchResponse {
-  found: boolean;
-  opts: any;
-}
 
 function toIndex(letter: string): IResponse {
-  assert(letter.length === 1);
   const response: IResponse = { success: false, val: 0 };
   const index = letter.toLowerCase().charCodeAt(0) - 97;
   response.val = index;
@@ -28,11 +22,14 @@ function toIndex(letter: string): IResponse {
   return response;
 }
 
-function depthFirstSearch(head: TrieNode, targetResultsCount: number): TrieNode[] {
+function depthFirstSearch(
+  head: TrieNode,
+  targetResultsCount: number,
+): Array<object> {
   // Add node to stack to show unvisited
   const stack = new Stack(100);
   const visitedNodes: string[] = [];
-  const results: TrieNode[] = [];
+  const results: Array<object> = [];
   // Add head stack
   stack.push(head);
   while (!stack.empty() && results.length < targetResultsCount) {
@@ -75,7 +72,7 @@ class TrieNode {
     return this.val;
   }
 
-  addQuery(query: string, options: {}): boolean {
+  addItem(query: string, options: {}): boolean {
     const parsedQuery = query.toLowerCase().replaceAll(' ', '');
     const response = this.add(parsedQuery, options);
     if (response) {
@@ -95,7 +92,7 @@ class TrieNode {
           this.children[index] = new TrieNode({ val: letter });
         }
         const nextQuery: string = query.substring(1, query.length);
-        return this.children[index]?.addQuery(nextQuery, options);
+        return this.children[index]?.addItem(nextQuery, options);
       }
       return false;
     }
@@ -109,20 +106,20 @@ class TrieNode {
     return true;
   }
 
-  searchQuery(query: string): Array<any> {
+  searchItem(query: string): Array<object> | undefined {
     const parsedQuery = query.toLowerCase().replaceAll(' ', '');
     // head or undefined
-    const response = this.search(parsedQuery);
-    if (response) {
+    const head = this.search(parsedQuery);
+    if (head) {
       // Success found a node
-      const searchResults = depthFirstSearch(
-        response,
+      const searchResults: Array<object> = depthFirstSearch(
+        head,
         TrieNode.searchQueryMaxResults,
       );
 
       return searchResults;
     }
-    return [];
+    return undefined;
   }
 
   private search(query: string): TrieNode | undefined {

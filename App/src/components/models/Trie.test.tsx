@@ -13,16 +13,16 @@ test('test add query', () => {
 
   const head = new TrieNode({ val: defaultValue });
   const opts = { name: 'test' };
-  let response: boolean = head.addQuery('hello', opts);
+  let response: boolean = head.addItem('hello', opts);
   expect(response).toBe(true);
 
-  response = head.addQuery('help', opts);
+  response = head.addItem('help', opts);
   expect(response).toBe(true);
 
-  response = head.addQuery('help me', opts);
+  response = head.addItem('help me', opts);
   expect(response).toBe(true);
 
-  response = head.addQuery('help me', opts);
+  response = head.addItem('help me', opts);
   expect(response).toBe(false);
 });
 
@@ -31,23 +31,25 @@ test('test search', () => {
 
   const head = new TrieNode({ val: defaultValue });
   const opts = { name: 'test' };
-  let response: boolean = head.addQuery('hello', opts);
+  let response: boolean = head.addItem('hello', opts);
   expect(response).toBe(true);
 
-  response = head.addQuery('abcd', opts);
+  response = head.addItem('abcd', opts);
   expect(response).toBe(true);
 
-  response = head.addQuery('abc', opts);
+  response = head.addItem('abc', opts);
   expect(response).toBe(true);
 
-  response = head.addQuery('abcde', opts);
+  response = head.addItem('abcde', opts);
   expect(response).toBe(true);
 
-  const searchResponse = head.searchQuery('abc');
+  const searchResponse = head.searchItem('abc');
   expect(searchResponse).toHaveLength(3);
-  expect(searchResponse[0]).toBe(opts);
-  expect(searchResponse[1]).toBe(opts);
-  expect(searchResponse[2]).toBe(opts);
+  if (searchResponse) {
+    expect(searchResponse[0]).toBe(opts);
+    expect(searchResponse[1]).toBe(opts);
+    expect(searchResponse[2]).toBe(opts);
+  }
 });
 
 test('test depth first search', () => {
@@ -55,19 +57,19 @@ test('test depth first search', () => {
 
   const head = new TrieNode({ val: defaultValue });
   const opts = { name: 'test' };
-  let response: boolean = head.addQuery('hello', opts);
+  let response: boolean = head.addItem('hello', opts);
   expect(response).toBe(true);
 
-  response = head.addQuery('abcd', opts);
+  response = head.addItem('abcd', opts);
   expect(response).toBe(true);
 
-  response = head.addQuery('abc', opts);
+  response = head.addItem('abc', opts);
   expect(response).toBe(true);
 
-  response = head.addQuery('abcde', opts);
+  response = head.addItem('abcde', opts);
   expect(response).toBe(true);
 
-  const searchResponse: TrieNode[] = depthFirstSearch(head, 3);
+  const searchResponse: object[] = depthFirstSearch(head, 3);
   expect(searchResponse).toHaveLength(3);
 });
 
@@ -78,4 +80,23 @@ test('test toIndex', () => {
     const response: any = toIndex(letters[i]);
     expect(response?.success).toBe(expectedIndex[i]);
   }
+});
+
+test('does not allow duplicates', () => {
+  const defaultValue: string = '';
+
+  const head = new TrieNode({ val: defaultValue });
+  const data = [
+    { name: 'apple', details: [] },
+    { name: 'ape', details: [] },
+    { name: 'Ape', details: [] },
+  ];
+
+  for (let index = 0; index < data.length; index += 1) {
+    const element = data[index];
+    head.addItem(element.name, element);
+  }
+
+  const searchResponse = head.searchItem('a');
+  expect(searchResponse).toHaveLength(2);
 });

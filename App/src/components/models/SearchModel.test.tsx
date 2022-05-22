@@ -20,7 +20,7 @@ test('finds results with different cases', () => {
     data: [
       { name: 'apple', details: [] },
       { name: 'ape', details: [] },
-      { name: 'Ape', details: [] },
+      { name: 'Apex', details: [] },
       { name: 'banana', details: [] },
       { name: 'babble', details: [] },
     ],

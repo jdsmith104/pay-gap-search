@@ -1,46 +1,48 @@
-interface SearchResult {
+import { TrieNode } from './Trie';
+
+interface SearchItem {
   name: string;
   details: Array<string>;
 }
 
 interface ImportedData {
-  data: Array<SearchResult>;
+  data: Array<SearchItem>;
 }
 
 class SearchModel {
-  searchItems: Array<SearchResult> = [
+  searchItems: Array<SearchItem> = [
     { name: 'apple', details: [] },
     { name: 'ape', details: [] },
     { name: 'banana', details: [] },
     { name: 'babble', details: [] },
   ];
 
+  trie: TrieNode;
+
   // Expect { data: Array<SearchResult>}
   constructor(importedData: ImportedData) {
+    this.trie = new TrieNode({ val: 'a' });
     if (importedData.data !== undefined && importedData.data.length > 0) {
-      this.searchItems = importedData.data.sort((a, b) =>
-        a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1,
-      );
+      for (let i = 0; i < importedData.data.length; i += 1) {
+        const item: SearchItem = importedData.data[i];
+        this.trie.addItem(item.name, item);
+      }
     }
   }
 
   // Search for string that begins with substring
-  find(substring: string): Array<SearchResult> {
-    const matches: Array<SearchResult> = [];
-    const searchString = substring.toLowerCase().replaceAll(' ', '');
-    let index = 0;
-    while (matches.length < 3 && index < this.searchItems.length) {
-      const item: string = this.searchItems[index].name;
-      // Should remove punctuation as well
-      const processedItemString = item.toLowerCase().replaceAll(' ', '');
-      if (processedItemString.startsWith(searchString)) {
-        matches.push(this.searchItems[index]);
+  find(substring: string): Array<SearchItem> {
+    const matches: Array<SearchItem> = [];
+    const response = this.trie.searchItem(substring);
+    if (response && response?.length > 0) {
+      for (let index = 0; index < response.length; index += 1) {
+        const searchItem: SearchItem = response[index] as SearchItem;
+        matches.push(searchItem);
       }
-      index += 1;
     }
     return matches;
   }
 }
 
 export { SearchModel };
-export type { ImportedData, SearchResult };
+export type { ImportedData, SearchItem as SearchResult };
