@@ -87,18 +87,13 @@ test('does not allow duplicates', () => {
 
   const head = new TrieNode({ val: defaultValue });
   const data = [
-    { name: 'apple', details: [] },
     { name: 'ape', details: [] },
     { name: 'Ape', details: [] },
   ];
 
-  for (let index = 0; index < data.length; index += 1) {
-    const element = data[index];
-    head.addItem(element.name, element);
-  }
-
-  const searchResponse = head.searchItem('a');
-  expect(searchResponse).toHaveLength(2);
+  const [datum1, datum2] = data;
+  expect(head.addItem(datum1.name, datum1)).toBeTruthy();
+  expect(head.addItem(datum2.name, datum2)).toBeFalsy();
 });
 
 test('previous search results are cached', () => {
@@ -142,11 +137,11 @@ test('Building a search query', () => {
 
   const head = new TrieNode({ val: defaultValue });
   const data = [
-    { name: 'apple', details: [] },
+    { name: 'able', details: [] },
+    { name: 'Apae', details: [] },
     { name: 'ape', details: [] },
     { name: 'Apel', details: [] },
-    { name: 'Apae', details: [] },
-    { name: 'able', details: [] },
+    { name: 'apple', details: [] },
   ];
 
   for (let index = 0; index < data.length; index += 1) {
@@ -156,23 +151,16 @@ test('Building a search query', () => {
 
   // Measure the time taken to find a query
   let searchResponse = head.searchItem('a');
-  if (searchResponse) {
-    expect(searchResponse).toHaveLength(3);
-  } else {
-    fail('Expected search results to be returned');
-  }
+  expect(searchResponse[0]).toBe(data[0]);
+  expect(searchResponse[1]).toBe(data[1]);
+  expect(searchResponse[2]).toBe(data[2]);
 
   searchResponse = head.searchItem('ap');
-  if (searchResponse) {
-    expect(searchResponse).toHaveLength(3);
-  } else {
-    fail('Expected search results to be returned');
-  }
+  expect(searchResponse[0]).toBe(data[1]);
+  expect(searchResponse[1]).toBe(data[2]);
+  expect(searchResponse[2]).toBe(data[3]);
 
   searchResponse = head.searchItem('ape');
-  if (searchResponse) {
-    expect(searchResponse).toHaveLength(2);
-  } else {
-    fail('Expected search results to be returned');
-  }
+  expect(searchResponse[0]).toBe(data[2]);
+  expect(searchResponse[1]).toBe(data[3]);
 });
