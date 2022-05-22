@@ -9,11 +9,11 @@ import {
   IonLabel,
   IonRow,
 } from '@ionic/react';
-import { ImportedData, SearchModel, SearchResult } from './models/SearchModel';
+import SearchModel from './models/SearchModel';
+import { ImportedData, SearchItem } from './models/SearchModelTypes';
 
 const SuggestedSearchBar = function SuggestedSearchBar() {
   const CardText: string = 'No company selected';
-  // Todo: This doesn't need to be state
   let show: boolean = false;
   function setShow(newShow: boolean) {
     show = newShow;
@@ -22,19 +22,23 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
   // Todo: This doesn't need to be state
   const [model, setModel] = useState<SearchModel>(new SearchModel({ data: [] }));
 
+  const emptySearchResults: Array<SearchItem> = [
+    {
+      name: '',
+      details: [],
+    },
+    {
+      name: '',
+      details: [],
+    },
+    {
+      name: '',
+      details: [],
+    },
+  ];
+
   // Todo: This doesn't need to be state
-  const [searchResult1, setSearchResult1] = useState<SearchResult>({
-    name: '',
-    details: [],
-  });
-  const [searchResult2, setSearchResult2] = useState<SearchResult>({
-    name: '',
-    details: [],
-  });
-  const [searchResult3, setSearchResult3] = useState<SearchResult>({
-    name: '',
-    details: [],
-  });
+  const [searchResults, setSearchResults] = useState<Array<SearchItem>>(emptySearchResults);
 
   // Todo: This doesn't need to be state
   const [cardText, setCardText] = useState<string>(CardText);
@@ -59,21 +63,11 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
     const InputText: string = event.detail.value;
 
     if (model) {
-      const ItemsToList: Array<SearchResult> = model.find(InputText);
-      if (ItemsToList[0]) {
-        setSearchResult1(ItemsToList[0]);
+      const ItemsToList: Array<SearchItem> = model.find(InputText);
+      if (ItemsToList.length > 0) {
+        setSearchResults(ItemsToList);
       } else {
-        setSearchResult1({ name: '', details: [] });
-      }
-      if (ItemsToList[1]) {
-        setSearchResult2(ItemsToList[1]);
-      } else {
-        setSearchResult2({ name: '', details: [] });
-      }
-      if (ItemsToList[2]) {
-        setSearchResult3(ItemsToList[2]);
-      } else {
-        setSearchResult3({ name: '', details: [] });
+        setSearchResults(emptySearchResults);
       }
       if (InputText !== '') {
         if (show === false) {
@@ -85,7 +79,7 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
     }
   }
 
-  function showDetail(data: SearchResult) {
+  function showDetail(data: SearchItem) {
     if (data.details.length >= 2) {
       const newCardText = `${data.name}\
       has ${data.details[0]}\
@@ -112,39 +106,39 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
           />
         </IonRow>
         <div>
-          {searchResult1.name !== '' && (
+          {searchResults[0].name !== '' && (
             <IonRow
               class="ion-justify-content-center"
               onClick={() => {
-                showDetail(searchResult1);
+                showDetail(searchResults[0]);
               }}
             >
               <IonItem>
-                <IonLabel>{searchResult1.name}</IonLabel>
+                <IonLabel>{searchResults[0].name}</IonLabel>
               </IonItem>
             </IonRow>
           )}
-          {searchResult2.name !== '' && (
+          {searchResults[1].name !== '' && (
             <IonRow
               class="ion-justify-content-center"
               onClick={() => {
-                showDetail(searchResult2);
+                showDetail(searchResults[1]);
               }}
             >
               <IonItem>
-                <IonLabel>{searchResult2.name}</IonLabel>
+                <IonLabel>{searchResults[1].name}</IonLabel>
               </IonItem>
             </IonRow>
           )}
-          {searchResult3.name !== '' && (
+          {searchResults[2].name !== '' && (
             <IonRow
               class="ion-justify-content-center"
               onClick={() => {
-                showDetail(searchResult3);
+                showDetail(searchResults[2]);
               }}
             >
               <IonItem>
-                <IonLabel>{searchResult3.name}</IonLabel>
+                <IonLabel>{searchResults[2].name}</IonLabel>
               </IonItem>
             </IonRow>
           )}

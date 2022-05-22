@@ -1,5 +1,6 @@
 import fs from 'fs';
-import { ImportedData, SearchModel } from './SearchModel';
+import { ImportedData } from './SearchModelTypes';
+import SearchModel from './SearchModel';
 
 test('finds results 1', () => {
   const importedData = {

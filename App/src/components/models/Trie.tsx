@@ -1,5 +1,6 @@
 import { sha1 } from 'object-hash';
 import Stack from './Stack';
+import { SearchItem } from './SearchModelTypes';
 
 export interface ITrieParameters {
   val: string;
@@ -9,6 +10,11 @@ interface IResponse {
   success: boolean;
   val: any;
 }
+
+const emptySearchResult: SearchItem = {
+  name: '',
+  details: [],
+};
 
 function toIndex(letter: string): IResponse {
   const response: IResponse = { success: false, val: 0 };
@@ -25,11 +31,11 @@ function toIndex(letter: string): IResponse {
 function depthFirstSearch(
   head: TrieNode,
   targetResultsCount: number,
-): Array<object> {
+): Array<SearchItem> {
   // Add node to stack to show unvisited
   const stack = new Stack(100);
   const visitedNodes: string[] = [];
-  const results: Array<object> = [];
+  const results: Array<SearchItem> = [];
   // Add head stack
   stack.push(head);
   while (!stack.empty() && results.length < targetResultsCount) {
@@ -58,11 +64,11 @@ class TrieNode {
 
   options: any;
 
-  private static searchQueryMaxResults: number = 3;
+  private searchQueryMaxResults: number = 3;
 
   private minSearchLength: number = 1;
 
-  private cachedSearchResults: Map<string, [Array<object>, TrieNode]>;
+  private cachedSearchResults: Map<string, [Array<SearchItem>, TrieNode]>;
 
   constructor(parameters: ITrieParameters) {
     this.val = parameters.val;
@@ -112,11 +118,11 @@ class TrieNode {
     return true;
   }
 
-  searchItem(query: string): Array<object> | undefined {
+  searchItem(query: string): Array<SearchItem> {
     const parsedQuery = query.toLowerCase().replaceAll(' ', '');
-    let result: Array<object> | undefined;
+    let result: Array<SearchItem> = [];
     if (!this.isValidSearchTerm(query)) {
-      result = undefined;
+      result = [];
     } else if (this.cachedSearchResults.has(parsedQuery)) {
       const queryTuple = this.cachedSearchResults.get(parsedQuery);
       if (queryTuple) {
@@ -128,15 +134,18 @@ class TrieNode {
       const head: TrieNode | undefined = cachedHead.getSubNode(subQuery);
       if (head) {
         // Success found a node
-        const searchResults: Array<object> = depthFirstSearch(
+        const searchResults: Array<SearchItem> = depthFirstSearch(
           head,
-          TrieNode.searchQueryMaxResults,
+          this.searchQueryMaxResults,
         );
         this.cachedSearchResults.set(parsedQuery, [searchResults, head]);
         result = searchResults;
       }
     }
 
+    while (result.length < this.searchQueryMaxResults) {
+      result.push(emptySearchResult);
+    }
     return result;
   }
 

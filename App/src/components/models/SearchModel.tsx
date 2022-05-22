@@ -1,15 +1,7 @@
 import { TrieNode } from './Trie';
+import { SearchItem, ImportedData } from './SearchModelTypes';
 
-interface SearchItem {
-  name: string;
-  details: Array<string>;
-}
-
-interface ImportedData {
-  data: Array<SearchItem>;
-}
-
-class SearchModel {
+export default class SearchModel {
   private searchItems: Array<SearchItem> = [];
 
   private trie: TrieNode;
@@ -27,17 +19,6 @@ class SearchModel {
 
   // Search for string that begins with substring
   find(substring: string): Array<SearchItem> {
-    const matches: Array<SearchItem> = [];
-    const response = this.trie.searchItem(substring);
-    if (response && response?.length > 0) {
-      for (let index = 0; index < response.length; index += 1) {
-        const searchItem: SearchItem = response[index] as SearchItem;
-        matches.push(searchItem);
-      }
-    }
-    return matches;
+    return this.trie.searchItem(substring);
   }
 }
-
-export { SearchModel };
-export type { ImportedData, SearchItem as SearchResult };
