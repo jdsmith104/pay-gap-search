@@ -10,14 +10,9 @@ interface ImportedData {
 }
 
 class SearchModel {
-  searchItems: Array<SearchItem> = [
-    { name: 'apple', details: [] },
-    { name: 'ape', details: [] },
-    { name: 'banana', details: [] },
-    { name: 'babble', details: [] },
-  ];
+  private searchItems: Array<SearchItem> = [];
 
-  trie: TrieNode;
+  private trie: TrieNode;
 
   // Expect { data: Array<SearchResult>}
   constructor(importedData: ImportedData) {
