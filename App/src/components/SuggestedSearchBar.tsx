@@ -11,12 +11,14 @@ import {
 } from '@ionic/react';
 import { ImportedData, SearchModel, SearchResult } from './models/SearchModel';
 
-const CardText: string = 'No company selected';
-
 const SuggestedSearchBar = function SuggestedSearchBar() {
+  const CardText: string = 'No company selected';
+  // Todo: This doesn't need to be state
   const [show, setShow] = useState<boolean>(false);
+  // Todo: This doesn't need to be state
   const [model, setModel] = useState<SearchModel>(new SearchModel({ data: [] }));
 
+  // Todo: This doesn't need to be state
   const [searchResult1, setSearchResult1] = useState<SearchResult>({
     name: '',
     details: [],
@@ -29,25 +31,24 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
     name: '',
     details: [],
   });
+
+  // Todo: This doesn't need to be state
   const [cardText, setCardText] = useState<string>(CardText);
 
-  useEffect(() => {
-    fetch(
+  async function getModelData() {
+    const res = await fetch(
       'data/json_data.json',
       // eslint-disable-next-line max-len
       {
         credentials: 'include',
       },
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        const objData = JSON.parse(data);
-        return objData;
-      })
-      .then((objectData: ImportedData) => {
-        setModel(new SearchModel(objectData));
-      })
-      .catch((err) => console.log(err));
+    );
+    const objData: ImportedData = JSON.parse(await res.json());
+    setModel(new SearchModel(objData));
+  }
+
+  useEffect(() => {
+    getModelData();
   }, []);
 
   function getDropdownItems(event: any) {
