@@ -1,6 +1,7 @@
 # pay-gap-search
 ## Description
 - Creating a search bar which autocompletes using data from https://gender-pay-gap.service.gov.uk/viewing/download
+- Live firebase site https://pay-gap-search.web.app/home
 
 ## Design
 - Data is formatted as a CSV - going to parse and convert it to JSON using a Python script
