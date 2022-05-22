@@ -14,18 +14,16 @@ import { ImportedData, SearchItem } from './models/SearchModelTypes';
 import { emptySearchResult } from './models/Trie';
 
 let searchModel: SearchModel;
+const noCompanySelectedText: string = 'No company selected';
 
 const SuggestedSearchBar = function SuggestedSearchBar() {
-  const CardText: string = 'No company selected';
-
   const [searchResults, setSearchResults] = useState<Array<SearchItem>>([
     emptySearchResult,
     emptySearchResult,
     emptySearchResult,
   ]);
 
-  // Using reference instead of state hook because
-  const [cardText, setCardText] = useState<string>(CardText);
+  const [detailedInformation, setDetailedInformation] = useState<string>(noCompanySelectedText);
 
   async function setModelData() {
     const res = await fetch(
@@ -39,30 +37,32 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
     searchModel = new SearchModel(objData);
   }
 
-  useEffect(() => {
-    setModelData();
-  }, []);
-
-  function getDropdownItems(event: any) {
+  function updateSearchResults(event: any) {
     const InputText: string = event.detail.value;
-
+    if (InputText.length === 0) {
+      setDetailedInformation(noCompanySelectedText);
+    }
     if (searchModel) {
       const ItemsToList: Array<SearchItem> = searchModel.find(InputText);
       setSearchResults(ItemsToList);
     }
   }
 
-  function updateCardText(data: SearchItem) {
+  function onResultClicked(data: SearchItem) {
     if (data.details.length >= 2) {
       const newCardText = `${data.name}\
       has ${data.details[0]}\
        employees and on average women earn\
         ${data.details[1]}% less per hour than men`;
-      setCardText(newCardText);
+      setDetailedInformation(newCardText);
     } else {
-      setCardText(CardText);
+      setDetailedInformation(noCompanySelectedText);
     }
   }
+
+  useEffect(() => {
+    setModelData();
+  }, []);
 
   const searchResultComponents: Array<any> = [];
   searchResults.forEach((searchResult) => {
@@ -71,7 +71,7 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
         <IonRow
           class="ion-justify-content-center"
           onClick={() => {
-            updateCardText(searchResult);
+            onResultClicked(searchResult);
           }}
         >
           <IonItem>
@@ -90,7 +90,7 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
             id="text-input"
             inputMode="search"
             onIonChange={(e) => {
-              getDropdownItems(e);
+              updateSearchResults(e);
             }}
             autofocus
             placeholder="Type a company name here"
@@ -99,7 +99,7 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
         <div>{searchResultComponents}</div>
         <IonRow class="ion-justify-content-center">
           <IonCard>
-            <IonCardContent>{cardText}</IonCardContent>
+            <IonCardContent>{detailedInformation}</IonCardContent>
           </IonCard>
         </IonRow>
       </IonGrid>
