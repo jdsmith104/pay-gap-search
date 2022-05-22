@@ -2,7 +2,7 @@ import { sha1 } from 'object-hash';
 import Stack from './Stack';
 import { SearchItem, IResponse, ITrieParameters } from './SearchModelTypes';
 
-const emptySearchResult: SearchItem = {
+export const emptySearchResult: SearchItem = {
   name: '',
   details: [],
 };
@@ -60,7 +60,7 @@ class TrieNode {
 
   private searchQueryMaxResults: number = 3;
 
-  private minSearchLength: number = 1;
+  private minQueryLength: number = 1;
 
   private cachedSearchResults: Map<string, [Array<SearchItem>, TrieNode]>;
 
@@ -167,7 +167,7 @@ class TrieNode {
 
   private isValidSearchTerm(query: string): boolean {
     let isValid = true;
-    if (query.length < this.minSearchLength) {
+    if (query.length < this.minQueryLength) {
       isValid = false;
     }
     return isValid;
