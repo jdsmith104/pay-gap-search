@@ -50,7 +50,10 @@
     "build": "react-scripts build",
     "tidy": "yarn prettier --write .",
     "test-models": "react-scripts test ./src/components",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy-test": "yarn build && firebase hosting:channel:deploy testing --expires 1h",
+    "delete-test-deploy": "yarn build && firebase hosting:channel:delete testing",
+    "deploy-test-live": "yarn build && firebase hosting:clone pay-gap-search:testing pay-gap-search:live"
   },
   "eslintConfig": {
     "extends": [
