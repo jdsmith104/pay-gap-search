@@ -14,7 +14,11 @@ import { ImportedData, SearchModel, SearchResult } from './models/SearchModel';
 const SuggestedSearchBar = function SuggestedSearchBar() {
   const CardText: string = 'No company selected';
   // Todo: This doesn't need to be state
-  const [show, setShow] = useState<boolean>(false);
+  let show: boolean = false;
+  function setShow(newShow: boolean) {
+    show = newShow;
+  }
+
   // Todo: This doesn't need to be state
   const [model, setModel] = useState<SearchModel>(new SearchModel({ data: [] }));
 
@@ -35,7 +39,7 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
   // Todo: This doesn't need to be state
   const [cardText, setCardText] = useState<string>(CardText);
 
-  async function getModelData() {
+  async function setModelData() {
     const res = await fetch(
       'data/json_data.json',
       // eslint-disable-next-line max-len
@@ -48,7 +52,7 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
   }
 
   useEffect(() => {
-    getModelData();
+    setModelData();
   }, []);
 
   function getDropdownItems(event: any) {
