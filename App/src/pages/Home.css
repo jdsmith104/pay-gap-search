@@ -4,7 +4,7 @@ IonHeader {
 
 .detailed-output-container {
   width: 100%;
-  bottom: 50px;
+  top: 700px;
   position: absolute;
   border-radius: 0px;
 }
