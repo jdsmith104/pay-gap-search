@@ -98,7 +98,7 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
                   updateSearchResults(e);
                 }}
                 autofocus
-                placeholder="Type a company name here"
+                placeholder="Search"
                 autoCapitalize="on"
               />
             </IonItem>
