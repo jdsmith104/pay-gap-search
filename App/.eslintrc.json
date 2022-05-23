@@ -28,6 +28,7 @@
       }
     ],
     "operator-linebreak": ["warn"],
-    "react/jsx-one-expression-per-line": "off"
+    "react/jsx-one-expression-per-line": "off",
+    "eol-last": ["never"]
   }
 }
