@@ -27,7 +27,7 @@
         "onlyOneSimpleParam": true
       }
     ],
-    "operator-linebreak": ["warn"],
+    "operator-linebreak": [0, "warn"],
     "react/jsx-one-expression-per-line": "off",
     "eol-last": [0, "never"]
   }
