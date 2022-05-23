@@ -4,7 +4,12 @@ IonHeader {
 
 .detailed-output-container {
   width: 100%;
-  bottom: 100px;
+  bottom: 50px;
   position: absolute;
   border-radius: 0px;
+}
+
+.page-elements {
+  max-width: 600px;
+  min-width: 300px;
 }

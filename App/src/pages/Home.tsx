@@ -37,7 +37,7 @@ const Home = function Home() {
         <IonContent>
           <IonGrid>
             <IonRow class="ion-justify-content-center">
-              <IonText>
+              <IonText className="page-elements">
                 <p>{PageText}</p>
               </IonText>
             </IonRow>
@@ -46,7 +46,7 @@ const Home = function Home() {
             </IonRow>
 
             <IonRow class="ion-justify-content-center">
-              <IonCard class="detailed-output-container">
+              <IonCard className="detailed-output-container page-elements">
                 <IonCardContent id="text-output">
                   {detailedInformation}
                 </IonCardContent>
