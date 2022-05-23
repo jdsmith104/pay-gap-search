@@ -1,15 +1,6 @@
 import './SuggestedSearchBar.scss';
 import React, { useEffect, useState } from 'react';
-import {
-  IonCard,
-  IonCardContent,
-  IonGrid,
-  IonIcon,
-  IonInput,
-  IonItem,
-  IonLabel,
-  IonRow,
-} from '@ionic/react';
+import { IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRow } from '@ionic/react';
 import { searchOutline } from 'ionicons/icons';
 import SearchModel from './models/SearchModel';
 import { ImportedData, SearchItem } from './models/SearchModelTypes';
@@ -18,14 +9,16 @@ import { emptySearchResult } from './models/Trie';
 let searchModel: SearchModel;
 const noCompanySelectedText: string = 'No company selected';
 
-const SuggestedSearchBar = function SuggestedSearchBar() {
+const SuggestedSearchBar = function SuggestedSearchBar({
+  onResultSelected,
+}: {
+  onResultSelected: (resultDetail: string) => void;
+}) {
   const [searchResults, setSearchResults] = useState<Array<SearchItem>>([
     emptySearchResult,
     emptySearchResult,
     emptySearchResult,
   ]);
-
-  const [detailedInformation, setDetailedInformation] = useState<string>(noCompanySelectedText);
 
   async function setModelData() {
     const res = await fetch(
@@ -42,7 +35,7 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
   function updateSearchResults(event: any) {
     const InputText: string = event.detail.value;
     if (InputText.length === 0) {
-      setDetailedInformation(noCompanySelectedText);
+      onResultSelected(noCompanySelectedText);
     }
     if (searchModel) {
       const ItemsToList: Array<SearchItem> = searchModel.find(InputText);
@@ -50,17 +43,17 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
     }
   }
 
-  function onResultClicked(data: SearchItem) {
+  const onResultClicked = (data: SearchItem) => {
     if (data.details.length >= 2) {
       const newCardText = `${data.name}\
       has ${data.details[0]}\
        employees and on average women earn\
         ${data.details[1]}% less per hour than men`;
-      setDetailedInformation(newCardText);
+      onResultSelected(newCardText);
     } else {
-      setDetailedInformation(noCompanySelectedText);
+      onResultSelected(noCompanySelectedText);
     }
-  }
+  };
 
   useEffect(() => {
     setModelData();
@@ -105,11 +98,6 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
           </IonRow>
           <div>{searchResultComponents}</div>
         </div>
-        <IonRow class="ion-justify-content-center">
-          <IonCard class="detailed-output-container">
-            <IonCardContent id="text-output">{detailedInformation}</IonCardContent>
-          </IonCard>
-        </IonRow>
       </IonGrid>
     </div>
   );

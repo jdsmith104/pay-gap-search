@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   IonContent,
   IonGrid,
@@ -9,6 +9,8 @@ import {
   IonRow,
   IonText,
   IonFooter,
+  IonCard,
+  IonCardContent,
 } from '@ionic/react';
 import './Home.css';
 import SuggestedSearchBar from '../components/SuggestedSearchBar';
@@ -17,6 +19,8 @@ const PageText: string =
   'Welcome to this application. Start typing in the text box below to and click the result to view their pay gap.';
 
 const Home = function Home() {
+  const [detailedInformation, setDetailedInformation] =
+    useState<string>('Nothing selected');
   return (
     <IonPage>
       <IonHeader>
@@ -38,7 +42,15 @@ const Home = function Home() {
               </IonText>
             </IonRow>
             <IonRow class="ion-justify-content-center">
-              <SuggestedSearchBar />
+              <SuggestedSearchBar onResultSelected={setDetailedInformation} />
+            </IonRow>
+
+            <IonRow class="ion-justify-content-center">
+              <IonCard class="detailed-output-container">
+                <IonCardContent id="text-output">
+                  {detailedInformation}
+                </IonCardContent>
+              </IonCard>
             </IonRow>
           </IonGrid>
         </IonContent>

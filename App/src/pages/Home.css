@@ -1,3 +1,10 @@
 IonHeader {
   background-color: #fff;
 }
+
+.detailed-output-container {
+  width: 100%;
+  bottom: 100px;
+  position: absolute;
+  border-radius: 0px;
+}

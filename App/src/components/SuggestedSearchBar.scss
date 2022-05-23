@@ -3,7 +3,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: 200px;
+  min-height: 300px;
   max-width: 600px;
   min-width: 300px;
   margin: 0 auto;
@@ -18,14 +18,14 @@
   text-decoration: none;
 }
 
-#text-input {}
+#text-input {
+}
 
 ion-item {
   width: 100%;
   --background: transparent;
-  --color: var(--ion-color-dark)
+  --color: var(--ion-color-dark);
 }
-
 
 .search-result {
   &:hover {
@@ -39,7 +39,6 @@ ion-item {
 
 .detailed-output-container {
   width: 100%;
-
 }
 
 .search-area {
