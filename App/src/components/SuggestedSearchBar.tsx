@@ -1,4 +1,4 @@
-import './SuggestedSearchBar.css';
+import './SuggestedSearchBar.scss';
 import React, { useEffect, useState } from 'react';
 import {
   IonCard,
@@ -74,7 +74,7 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
             onResultClicked(searchResult);
           }}
         >
-          <IonItem>
+          <IonItem class="search-result">
             <IonLabel>{searchResult.name}</IonLabel>
           </IonItem>
         </IonRow>
@@ -99,7 +99,7 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
         <div>{searchResultComponents}</div>
         <IonRow class="ion-justify-content-center">
           <IonCard>
-            <IonCardContent>{detailedInformation}</IonCardContent>
+            <IonCardContent id="text-output">{detailedInformation}</IonCardContent>
           </IonCard>
         </IonRow>
       </IonGrid>
