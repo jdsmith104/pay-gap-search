@@ -29,6 +29,6 @@
     ],
     "operator-linebreak": ["warn"],
     "react/jsx-one-expression-per-line": "off",
-    "eol-last": ["never"]
+    "eol-last": [0, "never"]
   }
 }
