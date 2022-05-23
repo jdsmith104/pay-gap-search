@@ -29,7 +29,7 @@ const SuggestedSearchBar = function SuggestedSearchBar({
       },
     );
     const objData: ImportedData = JSON.parse(await res.json());
-    searchModel = new SearchModel(objData);
+    searchModel = new SearchModel(objData, 2, 3);
   }
 
   function updateSearchResults(event: any) {

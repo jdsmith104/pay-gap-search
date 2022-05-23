@@ -60,11 +60,15 @@ class TrieNode {
 
   private searchQueryMaxResults: number;
 
-  private minQueryLength: number = 2;
+  private minQueryLength: number;
 
   private cachedSearchResults: Map<string, [Array<SearchItem>, TrieNode]>;
 
-  constructor(parameters: ITrieParameters, maxSearchResults: number = 3) {
+  constructor(
+    parameters: ITrieParameters,
+    maxSearchResults: number = 3,
+    minQueryLength: number = 1,
+  ) {
     this.val = parameters.val;
 
     this.children = new Array<TrieNode | undefined>(26);
@@ -74,6 +78,8 @@ class TrieNode {
     this.cachedSearchResults = new Map();
 
     this.searchQueryMaxResults = maxSearchResults;
+
+    this.minQueryLength = Math.max(minQueryLength, 1);
   }
 
   getValue(): string {

@@ -6,8 +6,12 @@ export default class SearchModel {
 
   private trie: TrieNode;
 
-  constructor(importedData: ImportedData) {
-    this.trie = new TrieNode({ val: '' });
+  constructor(
+    importedData: ImportedData,
+    minQueryLength: number = 1,
+    maxSearchResults: number = 3,
+  ) {
+    this.trie = new TrieNode({ val: '' }, maxSearchResults, minQueryLength);
     for (let i = 0; i < importedData.data.length; i += 1) {
       const datum: SearchItem = importedData.data[i];
       this.trie.addItem(datum.name, datum);
