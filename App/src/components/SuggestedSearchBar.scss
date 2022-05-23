@@ -27,10 +27,19 @@ ion-item {
 }
 
 
-.search-result {}
+.search-result {
+  &:hover {
+    color: var(--ion-color-primary);
+  }
+}
 
 #text-output {
   font-size: 16px;
+}
+
+.detailed-output-container {
+  width: 100%;
+
 }
 
 .search-area {

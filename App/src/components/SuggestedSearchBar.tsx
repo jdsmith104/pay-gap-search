@@ -106,7 +106,7 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
           <div>{searchResultComponents}</div>
         </div>
         <IonRow class="ion-justify-content-center">
-          <IonCard>
+          <IonCard class="detailed-output-container">
             <IonCardContent id="text-output">{detailedInformation}</IonCardContent>
           </IonCard>
         </IonRow>
