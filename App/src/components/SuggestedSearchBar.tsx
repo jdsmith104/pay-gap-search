@@ -89,7 +89,7 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
       <IonGrid>
         <div className="search-area">
           <IonRow class="ion-justify-content-center">
-            <IonItem class="search-result">
+            <IonItem>
               <IonIcon icon={searchOutline} slot="start" />
               <IonInput
                 id="text-input"
@@ -99,6 +99,7 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
                 }}
                 autofocus
                 placeholder="Type a company name here"
+                autoCapitalize="on"
               />
             </IonItem>
           </IonRow>

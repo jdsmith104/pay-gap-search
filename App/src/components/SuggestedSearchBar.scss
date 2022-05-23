@@ -21,11 +21,14 @@
 
 #text-input {}
 
-.search-result {
+ion-item {
   width: 100%;
   --background: transparent;
   --color: var(--ion-color-dark)
 }
+
+
+.search-result {}
 
 #text-output {
   font-size: 16px;
