@@ -2,12 +2,12 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
-    
+    branches: [main]
+
 defaults:
-  run: 
+  run:
     shell: bash
     working-directory: ./App
 
@@ -22,7 +22,8 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: "16"
       - run: yarn
       - run: yarn build
       - run: yarn test-models
+      - run: yarn test
