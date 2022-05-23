@@ -4,11 +4,13 @@ import {
   IonCard,
   IonCardContent,
   IonGrid,
+  IonIcon,
   IonInput,
   IonItem,
   IonLabel,
   IonRow,
 } from '@ionic/react';
+import { searchOutline } from 'ionicons/icons';
 import SearchModel from './models/SearchModel';
 import { ImportedData, SearchItem } from './models/SearchModelTypes';
 import { emptySearchResult } from './models/Trie';
@@ -85,18 +87,23 @@ const SuggestedSearchBar = function SuggestedSearchBar() {
   return (
     <div className="container">
       <IonGrid>
-        <IonRow class="ion-justify-content-center">
-          <IonInput
-            id="text-input"
-            inputMode="search"
-            onIonChange={(e) => {
-              updateSearchResults(e);
-            }}
-            autofocus
-            placeholder="Type a company name here"
-          />
-        </IonRow>
-        <div>{searchResultComponents}</div>
+        <div className="search-area">
+          <IonRow class="ion-justify-content-center">
+            <IonItem class="search-result">
+              <IonIcon icon={searchOutline} slot="start" />
+              <IonInput
+                id="text-input"
+                inputMode="search"
+                onIonChange={(e) => {
+                  updateSearchResults(e);
+                }}
+                autofocus
+                placeholder="Type a company name here"
+              />
+            </IonItem>
+          </IonRow>
+          <div>{searchResultComponents}</div>
+        </div>
         <IonRow class="ion-justify-content-center">
           <IonCard>
             <IonCardContent id="text-output">{detailedInformation}</IonCardContent>

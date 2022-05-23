@@ -15,26 +15,25 @@
   line-height: 26px;
 }
 
-.container p {
-  font-size: 16px;
-  line-height: 22px;
-  color: #8c8c8c;
-  margin: 0;
-}
-
 .container a {
   text-decoration: none;
 }
 
-#text-input {
-  border: blue 3px solid;
-  border-radius: 5px;
-}
+#text-input {}
 
 .search-result {
   width: 100%;
+  --background: transparent;
+  --color: var(--ion-color-dark)
 }
 
 #text-output {
   font-size: 16px;
+}
+
+.search-area {
+  border: rgba(223, 225, 229, 0) 3px solid;
+  border-radius: 10px;
+  box-shadow: 0 1px 6px 0 #171717;
+  background-color: var(--ion-toolbar-background);
 }
